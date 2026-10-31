@@ -26,7 +26,7 @@ services:
       db:
         condition: service_healthy
       minio:
-        condition: service_healthy
+        condition: service_started
     volumes:
       - file_storage:/var/lib/zalo-crm/files
     tmpfs:
@@ -75,59 +75,29 @@ services:
       - redis
 
   minio:
-    image: quay.io/minio/minio:latest
+    # Ảnh MinIO công khai của Bitnami (minio/minio & quay.io/minio đã bị khoá
+    # tải công khai từ 2025). Bitnami tự tạo bucket + mở quyền tải công khai,
+    # thay cho container minio-init/mc trước đây.
+    image: bitnamilegacy/minio:2025.7.23
     container_name: zalo-crm-minio
     restart: unless-stopped
-    command: server /data --console-address ":9001"
     environment:
-      # SECURITY: no defaults — deploy MUST set MINIO_ROOT_USER and
-      # MINIO_ROOT_PASSWORD in .env. Previously fell back to minioadmin/
-      # minioadmin which let anyone with network access pop the admin console.
-      MINIO_ROOT_USER:     "${MINIO_ROOT_USER:?MINIO_ROOT_USER must be set in .env}"
-      MINIO_ROOT_PASSWORD: "${MINIO_ROOT_PASSWORD:?MINIO_ROOT_PASSWORD must be set in .env}"
+      MINIO_ROOT_USER:       "${MINIO_ROOT_USER:?MINIO_ROOT_USER must be set in .env}"
+      MINIO_ROOT_PASSWORD:   "${MINIO_ROOT_PASSWORD:?MINIO_ROOT_PASSWORD must be set in .env}"
+      # Tự tạo bucket với policy "download" = ẩn danh chỉ TẢI được (cho Zalo CDN),
+      # KHÔNG cho upload ẩn danh. Backend ghi qua access-key.
+      MINIO_DEFAULT_BUCKETS: "${S3_BUCKET:-zalocrm-attachments}:download"
     volumes:
-      - minio_data:/data
+      - minio_data:/bitnami/minio/data
     ports:
-      # Port 9000 (S3 API) MUST stay reachable from Zalo CDN — Zalo's servers
-      # fetch attachment URLs we send via zca-js sendImage/sendVideo, so we
-      # can't bind to loopback. In production this MUST sit behind a TLS
-      # reverse proxy (nginx/Caddy) on the host that:
-      #   - serves /<bucket>/<key> with HTTPS
-      #   - rate-limits per IP
-      #   - keeps the admin console (:9001) firewalled to ops VPN only.
-      # The :9001 admin console IS bound to 127.0.0.1 below — never expose it.
+      # 9000 (S3 API) phải để Zalo CDN đọc được; 9001 (console) khoá loopback.
       - "9000:9000"
       - "127.0.0.1:9001:9001"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:9000/minio/health/live"]
+      test: ["CMD-SHELL", "curl -f http://localhost:9000/minio/health/live || exit 1"]
       interval: 10s
       timeout: 5s
-      retries: 3
-
-  minio-init:
-    image: quay.io/minio/mc:latest
-    container_name: zalo-crm-minio-init
-    depends_on:
-      minio:
-        condition: service_healthy
-    entrypoint: >
-      /bin/sh -c "
-      mc alias set local http://minio:9000 $${MINIO_ROOT_USER} $${MINIO_ROOT_PASSWORD};
-      mc mb --ignore-existing local/${S3_BUCKET:-zalocrm-attachments};
-      mc anonymous set download local/${S3_BUCKET:-zalocrm-attachments};
-      exit 0;
-      "
-    # Anonymous DOWNLOAD on the bucket is intentional: Zalo's CDN fetches
-    # attachment URLs we hand to zca-js. Keys are random UUIDs (see
-    # backend/src/shared/storage/minio-client.ts: `${date}/${randomUUID()}${ext}`)
-    # so listing is disabled and enumeration is infeasible.
-    # Anonymous UPLOAD is NOT enabled — only the backend can write via
-    # access-key auth.
-    environment:
-      # Same hard-fail pattern as minio service — no default credentials.
-      MINIO_ROOT_USER:     "${MINIO_ROOT_USER:?MINIO_ROOT_USER must be set in .env}"
-      MINIO_ROOT_PASSWORD: "${MINIO_ROOT_PASSWORD:?MINIO_ROOT_PASSWORD must be set in .env}"
-      S3_BUCKET: ${S3_BUCKET:-zalocrm-attachments}
+      retries: 5
 
   backup:
     image: prodrigestivill/postgres-backup-local
