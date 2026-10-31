@@ -75,7 +75,7 @@ services:
       - redis
 
   minio:
-    image: minio/minio:latest
+    image: quay.io/minio/minio:latest
     container_name: zalo-crm-minio
     restart: unless-stopped
     command: server /data --console-address ":9001"
@@ -105,7 +105,7 @@ services:
       retries: 3
 
   minio-init:
-    image: minio/mc:latest
+    image: quay.io/minio/mc:latest
     container_name: zalo-crm-minio-init
     depends_on:
       minio:
