@@ -1,0 +1,14 @@
+{
+  "name": "BQG CRM — Bình Quân Group",
+  "short_name": "BQG CRM",
+  "description": "Hệ thống chăm sóc khách hàng — Bình Quân Group · Đồng hành cùng nhà nông từ 1990",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#16304f",
+  "theme_color": "#16304f",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "/brand/zalocrm-logo.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/brand/zalocrm-logo.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}
