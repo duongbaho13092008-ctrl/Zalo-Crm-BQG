@@ -51,9 +51,16 @@ export function useDashboard() {
       ]);
       kpi.value = kpiRes.data;
       messageVolume.value = volRes.data.data || volRes.data;
-      pipeline.value = pipRes.data;
-      sources.value = srcRes.data;
-      appointments.value = aptRes.data;
+      // Backend trả { data: [{ status|source, count }] } còn biểu đồ cần mảng có `_count`
+      // → bóc lớp `data` và chuẩn hoá tên trường, nếu không 3 biểu đồ luôn "Không có dữ liệu".
+      const toChartItems = (res: { data: unknown }) => {
+        const body = res.data as { data?: unknown[] } | unknown[];
+        const rows = (Array.isArray(body) ? body : body?.data ?? []) as Array<Record<string, unknown>>;
+        return rows.map((r) => ({ ...r, _count: (r._count ?? r.count ?? 0) as number }));
+      };
+      pipeline.value = toChartItems(pipRes) as unknown as PipelineItem[];
+      sources.value = toChartItems(srcRes) as unknown as SourceItem[];
+      appointments.value = toChartItems(aptRes) as unknown as AppointmentStatusItem[];
     } catch (err) {
       console.error('Dashboard fetch error:', err);
     } finally {
