@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cẩm nang Phần mềm BQG CRM</title>
+<style>
+  :root{
+    --navy:#0F2E4D; --navy2:#16304f; --blue:#1E6CA8; --gold:#C9A227;
+    --ink:#16202b; --sub:#5a6472; --line:#e2e7ec; --bg:#f5f7fa;
+    --blue-bg:#eef4fb; --gold-bg:#fdf5e2; --green-bg:#e9f5ed; --red-bg:#fdecea; --green:#2e9d52; --red:#c0392b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:"Be Vietnam Pro",-apple-system,"Segoe UI",Roboto,"Noto Sans",Arial,sans-serif;color:var(--ink);line-height:1.5;font-size:12.5px}
+  .page{max-width:1120px;margin:0 auto;padding:26px 32px}
+  code{font-family:"SF Mono",Consolas,monospace;font-size:10.5px;background:#eef1f4;padding:1px 5px;border-radius:4px;color:var(--navy)}
+
+  .cover{background:linear-gradient(135deg,var(--navy) 0%,var(--blue) 100%);color:#fff;border-radius:18px;padding:34px 36px;display:flex;align-items:center;gap:26px;position:relative;overflow:hidden}
+  .cover::after{content:"";position:absolute;right:-40px;top:-40px;width:220px;height:220px;background:radial-gradient(circle,rgba(201,162,39,.4),transparent 70%);border-radius:50%}
+  .cover img{width:112px;height:112px;border-radius:22px;background:#fff;flex-shrink:0}
+  .cover .kick{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:800}
+  .cover h1{font-size:28px;font-weight:800;margin:6px 0 4px}
+  .cover .sub{font-size:13px;opacity:.92;max-width:640px}
+  .cover .meta{margin-top:12px;font-size:11px;opacity:.82}
+
+  h2{font-size:18px;color:var(--navy);font-weight:800;margin:30px 0 10px;border-left:5px solid var(--gold);padding-left:12px;page-break-after:avoid}
+  h3{font-size:14px;color:var(--blue);font-weight:800;margin:16px 0 6px}
+  p{margin:6px 0}
+  .lead{color:var(--sub);max-width:960px}
+
+  .grid{display:grid;gap:12px}
+  .g2{grid-template-columns:1fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}
+  .val{background:var(--blue-bg);border:1px solid #cfe0f2;border-radius:12px;padding:13px 15px}
+  .val b{display:block;color:var(--navy);font-size:13px;margin-bottom:3px}
+  .val span{font-size:11.5px;color:var(--sub)}
+  .val .ic{font-size:18px}
+
+  table{width:100%;border-collapse:collapse;font-size:11px;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-top:6px}
+  thead th{background:var(--navy);color:#fff;text-align:left;padding:8px 9px;font-size:10.5px;font-weight:700}
+  tbody td{padding:7px 9px;border-top:1px solid var(--line);vertical-align:top}
+  tbody tr:nth-child(even){background:var(--bg)}
+
+  .mod{border:1px solid var(--line);border-radius:13px;overflow:hidden;margin:14px 0;page-break-inside:avoid}
+  .mod .head{display:flex;align-items:center;gap:11px;padding:11px 15px;background:var(--blue-bg);border-bottom:1px solid var(--line)}
+  .mod .num{width:30px;height:30px;border-radius:9px;background:var(--navy);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+  .mod .nm{font-size:14.5px;font-weight:800;color:var(--ink)}
+  .mod .nm small{display:block;font-weight:600;color:var(--sub);font-size:10.5px}
+  .mod .body{padding:12px 15px}
+  .mod .row{display:grid;grid-template-columns:92px 1fr;gap:5px 12px;margin-bottom:7px;font-size:11.5px}
+  .mod .row b{color:var(--navy);font-size:10px;text-transform:uppercase;letter-spacing:.3px;padding-top:2px}
+  .mod .row ul{margin:0 0 0 16px}
+  .mod .row li{margin:1px 0}
+  .mod .gia{background:var(--gold-bg);border-left:3px solid var(--gold);border-radius:6px;padding:6px 10px;font-size:11.5px}
+  .mod .gia b{color:#9a6a06}
+
+  .step{display:grid;grid-template-columns:30px 1fr;gap:12px;margin-bottom:10px;align-items:start}
+  .step .n{width:30px;height:30px;border-radius:50%;background:var(--gold);color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:14px}
+  .step b{color:var(--navy)}
+
+  .note{border-radius:10px;padding:12px 15px;margin:12px 0;font-size:11.5px}
+  .warn{background:var(--red-bg);border:1px solid #f1b7b0;border-left:5px solid var(--red)}.warn b{color:var(--red)}
+  .ok{background:var(--green-bg);border:1px solid #bfe0cb;border-left:5px solid var(--green)}.ok b{color:#1b6b34}
+
+  footer{margin-top:28px;padding-top:14px;border-top:2px solid var(--line);font-size:10.5px;color:var(--sub)}
+  .pbreak{page-break-before:always}
+  @media print{body{font-size:10.5px}.page{padding:0 6px}.cover{border-radius:0}.mod,.val,table,.step,.note{page-break-inside:avoid}}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="cover">
+    <img src="file:///home/user/zalo-crm-bqg/frontend/public/brand/zalocrm-logo.png">
+    <div>
+      <div class="kick">Bình Quân Group · Tài liệu nội bộ</div>
+      <h1>Cẩm nang Phần mềm BQG CRM</h1>
+      <div class="sub">Chi tiết từng module, chức năng, cách triển khai và giá trị phần mềm chăm sóc khách hàng đa kênh Zalo mang lại cho Bình Quân Group.</div>
+      <div class="meta">Phiên bản 1.0 · 31.10.2026 · Chạy tại https://crmzalo.binhquangroup.tech · Nền: ZaloCRM v3.3 (Apache 2.0) + A.I TAKI</div>
+    </div>
+  </div>
+
+  <!-- 1 -->
+  <h2>1 · Phần mềm này là gì</h2>
+  <p class="lead">BQG CRM là <b>hệ thống chăm sóc khách hàng tập trung</b> giúp nhân viên Bình Quân Group <b>tiếp nhận và trả lời tin nhắn khách</b> từ nhiều tài khoản Zalo (và Facebook) trên <b>một màn hình</b>, quản lý toàn bộ hành trình: từ lúc khách nhắn tin → tư vấn chọn máy → báo giá → đặt cọc → giao lắp → nghiệm thu → chăm sóc sau bán. Toàn bộ dữ liệu khách <b>nằm trên máy chủ của BQG</b> (tự chủ, không khoá nhà cung cấp).</p>
+  <h3>Kiến trúc — 5 thành phần chạy cùng nhau (Docker)</h3>
+  <table>
+    <thead><tr><th style="width:22%">Thành phần</th><th>Vai trò</th></tr></thead>
+    <tbody>
+      <tr><td><b>Ứng dụng (app)</b></td><td>Giao diện web + xử lý nghiệp vụ (Node.js / Vue 3)</td></tr>
+      <tr><td><b>Cơ sở dữ liệu</b></td><td>Lưu khách hàng, tin nhắn, lịch hẹn… (PostgreSQL)</td></tr>
+      <tr><td><b>Bộ nhớ đệm</b></td><td>Tăng tốc, đệm sự kiện real-time (Redis)</td></tr>
+      <tr><td><b>Kho tệp</b></td><td>Lưu ảnh/video/file đính kèm chat (MinIO, S3-compatible)</td></tr>
+      <tr><td><b>Cầu nối Zalo</b></td><td>Kết nối các tài khoản Zalo cá nhân (thư viện zca-js)</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 2 -->
+  <h2>2 · Giá trị cốt lõi cho BQG</h2>
+  <p class="lead">Mô hình D2C (bán thẳng nhà nông) nghĩa là <b>BQG chịu toàn bộ chi phí tìm khách và giữ toàn bộ dữ liệu khách</b>. Phần mềm này biến dữ liệu đó thành lợi thế:</p>
+  <div class="grid g3">
+    <div class="val"><div class="ic">🗂️</div><b>Không rơi khách</b><span>Mọi tin nhắn từ nhiều nick Zalo gom về 1 nơi, có bộ lọc chưa đọc / chưa trả lời — không sót ai.</span></div>
+    <div class="val"><div class="ic">⚡</div><b>Phản hồi nhanh</b><span>Cảnh báo khách chờ &gt;30 phút; đo tốc độ phản hồi (Speed to Lead) — chốt được hay không phụ thuộc đây.</span></div>
+    <div class="val"><div class="ic">🎯</div><b>Ưu tiên đúng khách</b><span>Chấm điểm lead tự động (nóng/ấm/lạnh) → sale gọi khách đáng gọi trước, không phí thời gian.</span></div>
+    <div class="val"><div class="ic">🔁</div><b>Chăm sóc tự động</b><span>Kịch bản nhắn theo nhịp, phát hiện khách đình trệ, nhắc lịch hẹn — giữ chân & bán lại.</span></div>
+    <div class="val"><div class="ic">🤖</div><b>A.I soạn nháp an toàn</b><span>A.I viết sẵn câu trả lời theo ngữ cảnh + hồ sơ khách; nhân viên đọc rồi mới gửi — nhanh gấp nhiều lần.</span></div>
+    <div class="val"><div class="ic">📊</div><b>Ra quyết định bằng số</b><span>Dashboard phễu, nguồn khách, hiệu suất sale — thấy nghẽn ở đâu, mất bao tiền, ai chịu.</span></div>
+    <div class="val"><div class="ic">🔒</div><b>Tự chủ dữ liệu</b><span>Khách của BQG nằm trên máy chủ BQG, mã nguồn trong GitHub của BQG — không phụ thuộc ai.</span></div>
+    <div class="val"><div class="ic">💰</div><b>Chi phí thấp</b><span>Mã nguồn mở, chạy chung VPS với các phần mềm khác của BQG — không phí thuê phần mềm hàng tháng.</span></div>
+    <div class="val"><div class="ic">👥</div><b>Nhiều nick, nhiều sale</b><span>Quản nhiều tài khoản Zalo + phân quyền phòng ban, giao khách theo sale, không giẫm chân.</span></div>
+  </div>
+
+  <!-- 3 -->
+  <h2 class="pbreak">3 · Bản đồ module (thanh menu trên cùng)</h2>
+  <table>
+    <thead><tr><th style="width:20%">Module</th><th style="width:44%">Làm gì</th><th>Dành cho</th></tr></thead>
+    <tbody>
+      <tr><td><b>Tin nhắn</b></td><td>Chat với khách qua nhiều nick Zalo, real-time</td><td>Sale, CSKH</td></tr>
+      <tr><td><b>Khách hàng</b></td><td>Hồ sơ khách, pipeline, tag, ghi chú, chấm điểm</td><td>Sale, Quản lý</td></tr>
+      <tr><td><b>Bạn bè</b></td><td>Quản lý kết bạn Zalo, đồng bộ nick ↔ khách</td><td>Sale</td></tr>
+      <tr><td><b>KH đình trệ</b></td><td>Khách kẹt lâu không tiến triển — cần cứu</td><td>Leader Sales</td></tr>
+      <tr><td><b>Lịch hẹn</b></td><td>Tạo & nhắc lịch gọi / xem máy / follow-up</td><td>Sale</td></tr>
+      <tr><td><b>Automation (Bot-Auto)</b></td><td>Kịch bản nhắn tự động, broadcast, trigger</td><td>Marketing, Quản lý</td></tr>
+      <tr><td><b>Dashboard</b></td><td>Biểu đồ KPI, phễu, nguồn khách, hiệu suất</td><td>CEO, Quản lý</td></tr>
+      <tr><td><b>Cài đặt</b></td><td>A.I, mẫu tin, phân quyền, tài khoản Zalo, bảo mật</td><td>Admin</td></tr>
+    </tbody>
+  </table>
+
+  <!-- 4 -->
+  <h2>4 · Chi tiết từng module</h2>
+
+  <div class="mod"><div class="head"><div class="num">1</div><div class="nm">Tin nhắn (Chat đa Zalo)<small>Trái tim vận hành hằng ngày</small></div></div>
+    <div class="body">
+      <div class="row"><b>Mục đích</b><div>Nhận & trả lời tin khách từ nhiều nick Zalo trên một màn hình, không phải mở từng điện thoại.</div></div>
+      <div class="row"><b>Chức năng</b><div><ul>
+        <li>Chat real-time: gửi/nhận chữ, ảnh, video, file, sticker, chuyển khoản/QR, cuộc gọi</li>
+        <li>Bộ lọc: Chưa đọc · Chưa trả lời · Đình trệ · Sẵn sàng; tab Cá nhân / Nhóm / Chính / Khác</li>
+        <li>Mẫu tin nhanh: gõ <code>/</code> chèn mẫu có biến động (tên khách, máy…)</li>
+        <li>Tên khách 2 lớp (CRM Name ưu tiên hơn tên Zalo), reaction, trạng thái đã xem</li>
+      </ul></div></div>
+      <div class="row"><b>Cách dùng</b><div>Chọn hội thoại ở cột giữa → nhắn ở khung phải. Dùng bộ lọc "Chưa trả lời" đầu ngày để quét khách đang chờ.</div></div>
+      <div class="gia"><b>Giá trị:</b> một nhân viên chăm được nhiều nick; không khách nào bị bỏ quên; phản hồi nhanh = tỷ lệ chốt cao hơn.</div>
+    </div>
+  </div>
+
+  <div class="mod"><div class="head"><div class="num">2</div><div class="nm">Khách hàng (Hồ sơ &amp; Pipeline)<small>Bộ nhớ khách của cả công ty</small></div></div>
+    <div class="body">
+      <div class="row"><b>Mục đích</b><div>Lưu toàn bộ thông tin & hành trình từng khách, phân giai đoạn bán hàng.</div></div>
+      <div class="row"><b>Chức năng</b><div><ul>
+        <li>Pipeline giai đoạn: Mới → Tiếp cận → Hẹn gặp → Nóng → Tiềm năng → Chốt → (Thất bại/Mất)</li>
+        <li>Hồ sơ: SĐT (nhiều số), tỉnh/huyện, nuôi/trồng gì, nguồn khách, tag, ghi chú</li>
+        <li>Gộp trùng tự động (cùng SĐT / cùng người trên nhiều nick), gộp cha–con</li>
+        <li>Lịch sử tương tác, lịch hẹn, tin nhắn — tất cả trong một hồ sơ</li>
+      </ul></div></div>
+      <div class="row"><b>Cách dùng</b><div>Mỗi khách nhắn tới tự tạo hồ sơ; sale cập nhật giai đoạn + tag + ghi chú sau mỗi lần tư vấn.</div></div>
+      <div class="gia"><b>Giá trị:</b> khách là tài sản của BQG, không nằm trong điện thoại cá nhân sale; sale nghỉ việc không mất khách.</div>
+    </div>
+  </div>
+
+  <div class="mod"><div class="head"><div class="num">3</div><div class="nm">Chấm điểm &amp; Giai đoạn (Lead Scoring)<small>Biết gọi ai trước</small></div></div>
+    <div class="body">
+      <div class="row"><b>Mục đích</b><div>Tự động xếp hạng khách theo độ "nóng" để sale ưu tiên đúng người.</div></div>
+      <div class="row"><b>Chức năng</b><div><ul>
+        <li>Điểm 0–100 theo 4 chiều: Tương tác · Ý định · Độ phù hợp · Tốc độ</li>
+        <li>7 nhãn tự động: lạnh / ấm / nóng / champion / đang nguội / nguy cơ / ngủ đông</li>
+        <li>Tự trừ điểm khi khách im lặng lâu (decay); cấu hình trọng số ở Cài đặt</li>
+      </ul></div></div>
+      <div class="row"><b>Cách dùng</b><div>Danh sách khách sắp theo điểm ưu tiên; khách "nóng"/"champion" gọi trước.</div></div>
+      <div class="gia"><b>Giá trị:</b> sale không phí thời gian với khách lạnh; tập trung vào khách sắp chốt → tăng năng suất.</div>
+    </div>
+  </div>
+
+  <div class="mod"><div class="head"><div class="num">4</div><div class="nm">KH đình trệ (Stuck Leads)<small>Cứu khách sắp mất</small></div></div>
+    <div class="body">
+      <div class="row"><b>Mục đích</b><div>Phát hiện khách kẹt lâu ở một giai đoạn, không tiến triển — trước khi mất hẳn.</div></div>
+      <div class="row"><b>Chức năng</b><div>Cron hằng ngày quét khách quá ngưỡng ngày không chạm; gom thành danh sách riêng kèm tuổi kẹt.</div></div>
+      <div class="row"><b>Cách dùng</b><div>Leader Sales xem danh sách này mỗi tuần, giao sale chạm lại hoặc đóng khách chết để sạch phễu.</div></div>
+      <div class="gia"><b>Giá trị:</b> vớt lại doanh thu đang rơi; phễu luôn sạch, số liệu dự báo đáng tin.</div>
+    </div>
+  </div>
+
+  <div class="mod"><div class="head"><div class="num">5</div><div class="nm">Bạn bè (Friends)<small>Quản lý kết bạn Zalo</small></div></div>
+    <div class="body">
+      <div class="row"><b>Mục đích</b><div>Theo dõi tình trạng kết bạn giữa các nick Zalo của BQG với khách.</div></div>
+      <div class="row"><b>Chức năng</b><div>Đếm nick đang chăm khách, nick đã kết bạn / chờ chấp nhận; đồng bộ tên gợi nhớ (alias) 2 chiều Zalo ↔ CRM.</div></div>
+      <div class="row"><b>Cách dùng</b><div>Dùng khi gửi lời mời kết bạn hàng loạt từ tệp SĐT, theo dõi ai đã đồng ý.</div></div>
+      <div class="gia"><b>Giá trị:</b> mở rộng tệp khách có thể nhắn tới một cách có kiểm soát.</div>
+    </div>
+  </div>
+
+  <div class="mod"><div class="head"><div class="num">6</div><div class="nm">Lịch hẹn (Appointments)<small>Không quên lời hứa với khách</small></div></div>
+    <div class="body">
+      <div class="row"><b>Mục đích</b><div>Tạo & nhắc các mốc: gọi lại, hẹn xem máy, gửi báo giá, follow-up.</div></div>
+      <div class="row"><b>Chức năng</b><div>Tạo lịch (gọi / nhắn / gặp / follow-up), nhắc tự động hằng ngày, trạng thái hoàn thành / không đến; A.I gợi ý lịch từ ghi chú ("thứ 6 gọi lại").</div></div>
+      <div class="row"><b>Cách dùng</b><div>Hẹn gì với khách thì tạo lịch ngay; sáng hôm sau hệ thống nhắc.</div></div>
+      <div class="gia"><b>Giá trị:</b> giữ chữ tín với nhà nông; không tuột cơ hội vì quên gọi lại.</div>
+    </div>
+  </div>
+
+  <div class="mod"><div class="head"><div class="num">7</div><div class="nm">Automation / Bot-Auto<small>Làm thay việc lặp lại</small></div></div>
+    <div class="body">
+      <div class="row"><b>Mục đích</b><div>Tự động hoá nhắn tin theo kịch bản & sự kiện, gửi hàng loạt có kiểm soát.</div></div>
+      <div class="row"><b>Chức năng</b><div><ul>
+        <li><b>Blocks</b>: khối nội dung dùng lại · <b>Sequences</b>: chuỗi tin theo nhịp (dừng khi khách phản hồi)</li>
+        <li><b>Triggers</b>: kích hoạt theo sự kiện (sinh nhật, đặt hàng, hẹn giờ, yêu cầu kết bạn)</li>
+        <li><b>Broadcasts</b>: gửi loạt tới nhóm khách; <b>Tệp khách hàng</b>: nhập CSV/Excel làm nguồn gửi</li>
+      </ul></div></div>
+      <div class="row"><b>Cách dùng</b><div>Soạn kịch bản chăm sóc sau bán (D+1, D+7, D+30…), gắn nhịp gửi; hệ thống tự chạy.</div></div>
+      <div class="gia"><b>Giá trị:</b> chăm sóc đều tay cả nghìn khách mà không tốn người; nhưng phải giữ giới hạn gửi để không bị khóa nick.</div>
+    </div>
+  </div>
+
+  <div class="mod"><div class="head"><div class="num">8</div><div class="nm">Facebook Lead Ingestion<small>Hút lead từ quảng cáo Facebook</small></div></div>
+    <div class="body">
+      <div class="row"><b>Mục đích</b><div>Khách điền form quảng cáo Facebook → tự động vào CRM.</div></div>
+      <div class="row"><b>Chức năng</b><div>Kết nối Meta/Trang, webhook nhận lead, tự tạo Tệp khách theo trang/form, gắn tên chiến dịch/quảng cáo.</div></div>
+      <div class="row"><b>Cách dùng</b><div>Cấu hình ở Cài đặt → Facebook; lead từ ads chảy thẳng vào, biết lead đến từ chiến dịch nào.</div></div>
+      <div class="gia"><b>Giá trị:</b> quy nguồn lead theo chiến dịch → biết quảng cáo nào ra khách thật.</div>
+    </div>
+  </div>
+
+  <div class="mod"><div class="head"><div class="num">9</div><div class="nm">A.I Trợ lý (do TAKI thêm)<small>Nhanh hơn, không bịa, con người duyệt</small></div></div>
+    <div class="body">
+      <div class="row"><b>Chức năng</b><div><ul>
+        <li><b>"Khách hàng hôm nay"</b>: A.I tóm tắt ai cần chăm hôm nay (daily brief)</li>
+        <li><b>Trả lời 1-1 soạn nháp</b>: A.I viết sẵn câu trả lời theo lịch sử chat + hồ sơ → nhân viên bấm "Dùng" rồi gửi</li>
+        <li><b>Tự trả lời trong nhóm chỉ định</b> (bật/tắt 2 tầng) + <b>Bộ não nhóm tự học</b> từ tin người thật gõ tay</li>
+      </ul></div></div>
+      <div class="row"><b>An toàn</b><div>Chat 1-1 CHỈ soạn nháp, không tự gửi. A.I không bao giờ chối là A.I (khoá bằng code). Lọc SĐT/mật khẩu khỏi bộ nhớ A.I.</div></div>
+      <div class="gia"><b>Giá trị:</b> trả lời nhanh gấp nhiều lần, đồng đều chất lượng, mà vẫn giữ con người kiểm soát — đúng tinh thần "Brain First, A.I Second".</div>
+    </div>
+  </div>
+
+  <div class="mod"><div class="head"><div class="num">10</div><div class="nm">Dashboard &amp; Báo cáo<small>Mắt của người quản lý</small></div></div>
+    <div class="body">
+      <div class="row"><b>Chức năng</b><div>Biểu đồ số tin nhắn, KPI, nguồn khách, trạng thái pipeline; xuất báo cáo Excel theo thời gian.</div></div>
+      <div class="row"><b>Cách dùng</b><div>CEO/Quản lý xem đầu tuần; nâng cao hơn: nối Metabase đọc thẳng dữ liệu (bộ dashboard BQG đã thiết kế riêng).</div></div>
+      <div class="gia"><b>Giá trị:</b> quyết định bằng số thật thay vì cảm tính; thấy nghẽn ở tầng nào để sửa.</div>
+    </div>
+  </div>
+
+  <div class="mod"><div class="head"><div class="num">11</div><div class="nm">Phân quyền (RBAC) &amp; Cài đặt<small>Quản trị &amp; bảo mật</small></div></div>
+    <div class="body">
+      <div class="row"><b>Chức năng</b><div><ul>
+        <li>Phân quyền theo phòng ban, giao khách theo sale; mỗi sale thấy phần của mình</li>
+        <li>Cài đặt A.I (chọn nhà cung cấp + API key), mẫu tin, nhãn/tag, tài khoản Zalo</li>
+        <li>Privacy PIN: khoá xem thông tin nhạy cảm; giới hạn gửi Zalo (chống block)</li>
+      </ul></div></div>
+      <div class="gia"><b>Giá trị:</b> mỗi người đúng quyền, dữ liệu khách được bảo vệ, vận hành an toàn.</div>
+    </div>
+  </div>
+
+  <div class="mod"><div class="head"><div class="num">12</div><div class="nm">API &amp; Webhook<small>Nối với hệ thống khác</small></div></div>
+    <div class="body">
+      <div class="row"><b>Chức năng</b><div>REST API (xác thực API key) để lấy/ tạo khách, gửi tin; Webhook báo sự kiện (tin mới, khách mới, Zalo kết nối/ngắt).</div></div>
+      <div class="gia"><b>Giá trị:</b> sau này nối với ERPNext/kế toán, website, dashboard — dữ liệu chảy thông suốt.</div>
+    </div>
+  </div>
+
+  <!-- 5 -->
+  <h2 class="pbreak">5 · Cách triển khai &amp; vận hành (bắt đầu dùng)</h2>
+  <div class="step"><div class="n">1</div><div><b>Đổi mật khẩu admin</b> và đổi tên tổ chức thành "Bình Quân Group" (Cài đặt).</div></div>
+  <div class="step"><div class="n">2</div><div><b>Tạo tài khoản cho nhân viên</b> + phân quyền phòng ban (Cài đặt → Người dùng).</div></div>
+  <div class="step"><div class="n">3</div><div><b>Kết nối tài khoản Zalo</b> bằng quét QR — dùng <b>số Zalo phụ</b> của công ty, không dùng số cá nhân.</div></div>
+  <div class="step"><div class="n">4</div><div><b>Chốt pipeline &amp; tag</b>: giữ 8 giai đoạn mặc định hoặc tinh chỉnh; tạo vài tag hay dùng (vd "quan tâm máy ép cám").</div></div>
+  <div class="step"><div class="n">5</div><div><b>Cấu hình A.I</b> (nếu dùng): Cài đặt → A.I, điền API key; bật "soạn nháp" cho chat 1-1.</div></div>
+  <div class="step"><div class="n">6</div><div><b>Nhập tệp khách cũ</b> (CSV/Excel) vào Tệp khách hàng để chăm sóc lại &amp; bán máy thứ hai/phụ tùng.</div></div>
+  <div class="step"><div class="n">7</div><div><b>Dựng kịch bản chăm sóc sau bán</b> (D+1 → D+365) trong Automation; đặt nhịp gửi an toàn.</div></div>
+
+  <div class="note warn"><b>⚠️ An toàn Zalo — bắt buộc tuân thủ:</b> Phần mềm tự động hoá Zalo cá nhân — có thể vi phạm Điều khoản Dịch vụ Zalo, nick có thể bị khóa. → Dùng <b>số Zalo phụ</b>, giữ <b>≤ 200 tin/ngày/nick</b>, giãn nhịp gửi, để A.I <b>chỉ soạn nháp — người bấm gửi</b>. Không nhắn hàng loạt tới người chưa từng tương tác.</div>
+
+  <!-- 6 -->
+  <h2>6 · Lộ trình khai thác giá trị</h2>
+  <div class="grid g3">
+    <div class="val"><b>0 – 30 ngày</b><span>Vận hành Tin nhắn + Hồ sơ khách hằng ngày. Kết nối 2–3 nick Zalo. Sale quen dùng chấm điểm + lịch hẹn. Mục tiêu: không rơi lead, phản hồi &lt;30 phút.</span></div>
+    <div class="val"><b>30 – 90 ngày</b><span>Bật A.I soạn nháp; dựng kịch bản chăm sóc sau bán; nhập tệp khách cũ bán lại. Theo dõi Dashboard phễu để tìm nghẽn.</span></div>
+    <div class="val"><b>90 – 180 ngày</b><span>Nối Facebook Lead; nối Metabase đọc số thật (bộ dashboard BQG đã thiết kế); nối ERPNext cho doanh thu/giao-lắp. Tối ưu theo số.</span></div>
+  </div>
+
+  <div class="note ok"><b>✅ Tóm một câu:</b> BQG CRM biến mỗi tin nhắn khách thành một hồ sơ được theo dõi đến cùng, giúp BQG <b>bán được nhiều máy hơn với cùng số nhân viên</b>, giữ khách cũ quay lại, và ra quyết định bằng số thật — tất cả trên hạ tầng BQG tự chủ.</div>
+
+  <footer>
+    © Bình Quân Group — Đồng hành cùng nhà nông từ 1990. Cẩm nang nội bộ phần mềm BQG CRM.<br>
+    Nền tảng: ZaloCRM v3.3 (giấy phép Apache 2.0, giữ NOTICE/attribution) + lớp A.I của TAKI Academy. Mã nguồn: github.com/duongbaho13092008-ctrl/Zalo-Crm-BQG.
+  </footer>
+
+</div>
+</body>
+</html>
