@@ -142,7 +142,7 @@ BEGIN
       -- tin cuối cùng của hội thoại có tin chưa đọc phải là của KHÁCH
       IF (j % 2 = 1) OR (j = v_nmsg AND v_unread > 0) THEN
         v_txt := format(v_in[1+floor(random()*array_length(v_in,1))::int], v_nuoi_c);
-        IF v_txt LIKE '%không shop?' AND random()<0.5 THEN v_txt := format('Có giao về %s không shop?', v_tinh_c); END IF;
+        IF v_txt LIKE 'Có giao về%' THEN v_txt := format('Có giao về %s không shop?', v_tinh_c); END IF;
         INSERT INTO messages (id, conversation_id, zalo_msg_id, sender_type, sender_name, content, content_type, sent_at, sent_via, created_at)
         VALUES (gen_random_uuid()::text, v_conv, 'test-'||substr(v_conv,1,8)||'-'||j, 'contact', v_name, v_txt, 'text', v_t, 'user', v_t);
         v_in_n := v_in_n + 1;
@@ -186,9 +186,11 @@ BEGIN
       v_created + ((floor(random()*10))::int || ' days')::interval, v_created, now());
 
     -- lịch hẹn: khách từ "Hẹn gặp" trở lên
-    IF v_stage BETWEEN 3 AND 6 OR random() < 0.12 THEN
-      FOR k IN 1..(1 + floor(random()*2)::int) LOOP
-        v_t := now() + ((floor(random()*20)-12)::int || ' days')::interval + ((floor(random()*9))::int || ' hours')::interval;
+    -- (≈2 lịch/ngày: màn Lịch hẹn của phần mềm gốc chỉ tải 50 lịch cho 2 tuần)
+    IF v_stage BETWEEN 3 AND 6 OR random() < 0.05 THEN
+      FOR k IN 1..1 LOOP
+        v_t := date_trunc('day', now()) + ((floor(random()*60)-45)::int || ' days')::interval
+               + ((8 + floor(random()*10))::int || ' hours')::interval;
         INSERT INTO appointments (id, org_id, contact_id, assigned_user_id, appointment_date, appointment_time, title,
           duration_min, location, type, status, source, notes, created_at)
         VALUES (gen_random_uuid()::text, v_org, v_cid, v_uid, v_t, to_char(v_t,'HH24:MI'),
