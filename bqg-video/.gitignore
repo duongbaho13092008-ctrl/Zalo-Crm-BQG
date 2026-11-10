@@ -1,0 +1,11 @@
+config.toml
+du-lieu/
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+# cảnh quay và nhạc nặng — lưu ở ổ chung / NAS, không đưa lên git
+kho-canh/**/*
+!kho-canh/README.md
+nhac-nen/**/*
+!nhac-nen/README.md

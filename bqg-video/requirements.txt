@@ -1,0 +1,13 @@
+# Xưởng Video A.I Bình Quân — Python 3.11+ và ffmpeg
+pydantic>=2.7,<3
+loguru>=0.7
+pillow>=10.4
+numpy>=1.26
+requests>=2.32
+edge-tts>=7.0,<8
+anthropic>=2.0
+fastapi>=0.115
+uvicorn>=0.30
+python-multipart>=0.0.18
+streamlit>=1.40
+imageio-ffmpeg>=0.5   # ffmpeg dự phòng khi máy chưa cài (tiện cho Windows)

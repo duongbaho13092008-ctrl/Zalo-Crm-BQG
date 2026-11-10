@@ -1,0 +1,26 @@
+# Chạy: docker compose up -d   rồi mở http://127.0.0.1:8501
+# Cổng chỉ mở cho máy này (127.0.0.1). Muốn cho máy khác trong văn phòng dùng: đổi IP, đặt BQG_VIDEO_API_KEY.
+services:
+  giao-dien:
+    build: .
+    ports: ["127.0.0.1:8501:8501"]
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+    volumes:
+      - ./config.toml:/app/config.toml:ro
+      - ./du-lieu:/app/du-lieu
+      - ./kho-canh:/app/kho-canh
+      - ./nhac-nen:/app/nhac-nen
+  api:
+    build: .
+    command: ["python", "-m", "bqgvideo", "api"]
+    ports: ["127.0.0.1:8686:8686"]
+    environment:
+      - ANTHROPIC_API_KEY=${ANTHROPIC_API_KEY:-}
+      - BQG_VIDEO_API_KEY=${BQG_VIDEO_API_KEY:?Đặt BQG_VIDEO_API_KEY (tối thiểu 16 ký tự) trước khi chạy API}
+      - BQG_VIDEO_CONFIG=/app/config.toml
+    volumes:
+      - ./config.toml:/app/config.toml:ro
+      - ./du-lieu:/app/du-lieu
+      - ./kho-canh:/app/kho-canh
+      - ./nhac-nen:/app/nhac-nen

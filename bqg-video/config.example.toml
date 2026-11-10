@@ -1,0 +1,40 @@
+# Cấu hình Xưởng Video A.I Bình Quân — chép thành config.toml rồi sửa.
+# KHOÁ BÍ MẬT (khoá A.I, khoá API) ĐẶT BẰNG BIẾN MÔI TRƯỜNG, không ghi vào tệp này:
+#   ANTHROPIC_API_KEY   — khoá Claude để A.I viết kịch bản
+#   BQG_VIDEO_API_KEY   — khoá bảo vệ API (bắt buộc nếu mở API ra mạng nội bộ)
+
+[app]
+listen_host = "127.0.0.1"   # chỉ máy này gọi được API. Đổi sang 0.0.0.0 thì BẮT BUỘC đặt BQG_VIDEO_API_KEY
+listen_port = 8686
+data_dir = "./du-lieu"       # video, sổ duyệt, sổ đo
+footage_dir = "./kho-canh"   # kho cảnh thật theo dòng máy
+music_dir = "./nhac-nen"     # nhạc nền có quyền sử dụng
+
+[llm]
+provider = "anthropic"       # anthropic | ollama (A.I chạy trên máy, không gửi dữ liệu ra ngoài) | tat
+model = "claude-opus-5-5"
+effort = "medium"            # low | medium | high — mức suy nghĩ của A.I
+ollama_url = "http://127.0.0.1:11434"
+ollama_model = "qwen2.5:14b"
+
+[thuong_hieu]
+hotline = ""                 # VD "1900 xxxx" — hiện ở cảnh kết
+zalo = ""                    # số Zalo / tên Zalo OA — hiện ở cảnh kết
+website = ""
+cau_keu_goi = "Nhắn Zalo cho Bình Quân: nuôi con gì, bao nhiêu con — kỹ thuật tư vấn đúng máy"
+hien_logo = true
+
+[video]
+ti_le = "9:16"
+fps = 30
+co_chu_phu_de = 64
+so_ky_tu_toi_da_moi_dong = 22
+giay_canh_ket = 3.0
+am_luong_nhac = 0.12
+giay_toi_da_moi_canh = 5.0   # đoạn dài hơn sẽ chia nhiều cảnh cho nhịp nhanh
+preset_ffmpeg = "medium"     # ultrafast (nhanh, tệp to) ... slow (chậm, tệp gọn)
+so_luong_ffmpeg = 2
+
+[giong]
+giong_mac_dinh = "vi-VN-HoaiMyNeural"
+toc_do = 1.0

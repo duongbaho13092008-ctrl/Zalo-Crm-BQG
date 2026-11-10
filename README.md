@@ -19,6 +19,7 @@ Hệ thống quản lý tập trung nhiều tài khoản Zalo cá nhân trên 1 
 | ![Privacy PIN](docs/release-images/v3.3/04-privacy-pin.png) | ![Customer Lists](docs/release-images/v3.3/06-customer-lists.png) |
 
 > 📖 Xem hướng dẫn sử dụng đầy đủ tại [docs/HUONG-DAN-NGUOI-DUNG.md](docs/HUONG-DAN-NGUOI-DUNG.md).
+> 🎬 **Xưởng Video A.I Bình Quân** (dựng video ngắn từ cảnh máy chạy thật, có mã video để đo lead): xem [bqg-video/README.md](bqg-video/README.md).
 > 📣 Release note v3.3: [docs/announcements/v3.3-release-announcement.md](docs/announcements/v3.3-release-announcement.md). Changelog đầy đủ: [CHANGELOG.md](CHANGELOG.md).
 
 ## Tính năng
