@@ -6,6 +6,8 @@ Viết lại hoàn toàn cho BQG, lấy ý tưởng dây chuyền 6 khâu của 
 > Đây là **dây chuyền dựng video**, không phải "máy in tiền". Video tốt vẫn phải bắt đầu từ lời khách thật,
 > cảnh máy chạy thật và con số đã xác minh. Phần mềm chỉ giúp dựng nhanh những thứ đó.
 
+> 📘 **Hướng dẫn chi tiết có ảnh chụp giao diện thật:** mở `docs/HUONG-DAN-SU-DUNG.html` bằng trình duyệt.
+
 ## Dây chuyền 6 khâu
 
 | Khâu | Làm gì | Ai chịu |

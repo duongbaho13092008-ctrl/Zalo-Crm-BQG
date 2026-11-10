@@ -16,8 +16,9 @@ def test_tao_ma():
 
 
 def bg(ma="V-EPCAM-261110-01A", **kw):
+    kw.setdefault("trang_thai", "cho_duyet")
     return BanGhiVideo(ma=ma, chu_de="Cám nổi", dong_may="may-ep-cam-vien", bien_the=ord(ma[-1]) - 65,
-                       cau_mo_dau="Mở", loi_doc="Mở", trang_thai="cho_duyet", tao_luc="2026-11-10T09:00:00", **kw)
+                       cau_mo_dau="Mở", loi_doc="Mở", tao_luc="2026-11-10T09:00:00", **kw)
 
 
 def test_duyet_can_du_checklist_va_ten(tmp_path):
@@ -52,6 +53,7 @@ def test_do_luong_va_csv(tmp_path):
     sd = SoDo(tmp_path)
     sd.luu(bg())
     sd.luu(bg("V-EPCAM-261110-01B"))
+    sd.luu(bg("V-EPCAM-261110-02A", trang_thai="loi"))  # bản dựng hỏng không vào sổ đo
     with pytest.raises(ValueError):
         sd.cap_nhat_do_luong("V-EPCAM-261110-01A", lead=3, lead_du_4_cau=5)
     with pytest.raises(ValueError):
@@ -61,6 +63,7 @@ def test_do_luong_va_csv(tmp_path):
     sd.cap_nhat_do_luong("V-EPCAM-261110-01A", lead=10, lead_du_4_cau=4, don_may_thuc=1, nguon_so="CRM")
     csv = sd.xuat_csv()
     assert CHUA_CO in csv  # biến thể B chưa có số
+    assert "02A" not in csv
     th = sd.tong_hop_chu_de()
     assert len(th) == 1 and len(th[0]["bien_the"]) == 2 and th[0]["du_du_lieu"] is False
     assert th[0]["bien_the"][0]["lead_du_4_cau"] == 4 and th[0]["bien_the"][1]["lead_du_4_cau"] is None

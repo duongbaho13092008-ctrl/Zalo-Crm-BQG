@@ -153,6 +153,8 @@ class SoDo:
         """So các biến thể câu mở đầu trong cùng chủ đề (cùng tiền tố mã)."""
         nhom: dict[str, list[BanGhiVideo]] = {}
         for bg in self.danh_sach():
+            if bg.trang_thai == "loi":  # dựng hỏng: không đưa vào so sánh
+                continue
             nhom.setdefault(bg.ma[:-1], []).append(bg)
         ket_qua = []
         for tien_to, ds in sorted(nhom.items(), reverse=True):
@@ -188,6 +190,8 @@ class SoDo:
             ]
         )
         for b in self.danh_sach():
+            if b.trang_thai == "loi":
+                continue
             duyet = next((d for d in reversed(b.lich_su_duyet) if d.dong_y), None)
             dl = b.do_luong
 

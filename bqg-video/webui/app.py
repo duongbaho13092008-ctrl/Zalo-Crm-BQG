@@ -270,7 +270,7 @@ with tab_do:
             [{"Mã": b["ma"], "Câu mở đầu": b["cau_mo_dau"], "Trạng thái": TRANG_THAI.get(b["trang_thai"]),
               "Lead đủ 4 câu": so_hien(b["lead_du_4_cau"]), "Đơn máy thực": so_hien(b["don_may_thuc"])}
              for b in n["bien_the"]],
-            hide_index=True, use_container_width=True,
+            hide_index=True, width="stretch",
         )
     st.download_button("⬇️ Tải sổ đo (CSV, mở bằng Excel)", "﻿" + so_do.xuat_csv(), "so-do-video-bqg.csv")
 
@@ -324,7 +324,7 @@ with tab_kho:
     st.dataframe(
         [{"Dòng máy": ten_dong_may(k), "Video": v["so_video"], "Giây": v["tong_giay"], "Ảnh": v["so_anh"],
           "Thẻ": ", ".join(v["the"])} for k, v in kho.thong_ke().items()],
-        hide_index=True, use_container_width=True,
+        hide_index=True, width="stretch",
     )
     with st.form("tai_canh", clear_on_submit=True):
         st.markdown("**Thêm cảnh vào kho** — phần mềm tự đặt tên tệp đúng quy ước")
